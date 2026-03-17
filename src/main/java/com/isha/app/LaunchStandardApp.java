@@ -7,10 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class LaunchStandardApp
 {
@@ -39,9 +36,6 @@ public class LaunchStandardApp
             freader=new FileReader(file);
             bio=new char[(int)file.length()]; // length for arr should be int so type casting from double to int
             freader.read(bio);
-            fis.close();
-            freader.close();
-
         }
         catch(FileNotFoundException e1)
         {
@@ -51,7 +45,6 @@ public class LaunchStandardApp
         {
             e1.printStackTrace();
         }
-
 
         // StudentInfo object
         StudentInfo si=new StudentInfo();
@@ -85,6 +78,16 @@ public class LaunchStandardApp
             else
             {
                 transaction.rollback(); // rollback
+            }
+
+            try
+            {
+                fis.close();
+                freader.close();
+            }
+            catch (IOException e)
+            {
+               e.printStackTrace();
             }
             session.close();
             sessionFactory.close();
